@@ -11,5 +11,108 @@
 
     <artifactId>demo_once</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.cloudera.oryx</groupId>
+            <artifactId>oryx-api</artifactId>
+            <scope>provided</scope>
+            <version>2.5.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <!--
+          Use this only if you use APIs specific to the project's provided
+          application implementations, like the ALS Rescorer interface
+         -->
+        <dependency>
+            <groupId>com.cloudera.oryx</groupId>
+            <artifactId>oryx-app-api</artifactId>
+            <scope>provided</scope>
+            <version>2.5.0-SNAPSHOT</version>
+        </dependency>
+        <!-- optional, but would enable some native acceleration -->
+        <dependency>
+            <groupId>com.github.fommil.netlib</groupId>
+            <artifactId>all</artifactId>
+            <version>1.1.2</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <!-- Use scala compiler only if using Scala APIs -->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <checkMultipleScalaVersions>false</checkMultipleScalaVersions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        <plugin>
+                     <artifactId>maven-assembly-plugin</artifactId>
+                   <version>2.4.1</version>
+                    <configuration>
+                        <finalName>mylib</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
+                       <encoding>utf-8</encoding>
+                       <descriptors>
+                            <descriptor>src/main/assembly/src.xml</descriptor>
+                        </descriptors>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                         </descriptorRefs>
+                    </configuration>
+                   <executions>
+                         <execution>
+                           <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                 </plugin>
+
+         <!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+           -->
+        </plugins>
+    </build>
 
 </project>
