@@ -551,6 +551,7 @@
     <module>deploy/oryx-batch</module>
     <module>deploy/oryx-speed</module>
     <module>deploy/oryx-serving</module>
+    <module>demo_once</module>
   </modules>
 
   <properties>
@@ -648,12 +649,13 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.6.1</version>
-          <configuration>
+             <configuration>
             <optimize>true</optimize>
             <showDeprecation>true</showDeprecation>
             <showWarnings>true</showWarnings>
             <source>${java.version}</source>
             <target>${java.version}</target>
+              <encoding>utf-8</encoding>
             <compilerArgs>
               <arg>-Xlint:all,-serial,-try,-options</arg>
               <arg>-Werror</arg>
@@ -808,6 +810,10 @@
           <version>3.0.2</version>
           <configuration>
             <skipIfEmpty>true</skipIfEmpty>
+            <excludes>
+              <exclude>**/demo_once</exclude>
+            </excludes>
+
           </configuration>
           <executions>
             <execution>

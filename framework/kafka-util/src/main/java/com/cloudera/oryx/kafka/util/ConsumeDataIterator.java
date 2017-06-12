@@ -54,6 +54,7 @@ public final class ConsumeDataIterator<K,V>
       try {
         long timeout = MIN_POLL_MS;
         ConsumerRecords<K, V> records;
+
         while ((records = consumer.poll(timeout)).isEmpty()) {
           timeout = Math.min(MAX_POLL_MS, timeout * 2);
         }

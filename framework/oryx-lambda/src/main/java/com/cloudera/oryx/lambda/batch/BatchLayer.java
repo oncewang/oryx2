@@ -87,20 +87,22 @@ public final class BatchLayer<K,M,U> extends AbstractSparkLayer<K,M> {
     return "BatchLayer";
   }
 
-  public synchronized void start() {
+  public synchronized void start() { // 加锁,单线程执行
     String id = getID();
     if (id != null) {
       log.info("Starting Batch Layer {}", id);
     }
 
     streamingContext = buildStreamingContext();
-    JavaSparkContext sparkContext = streamingContext.sparkContext();
+    JavaSparkContext sparkContext = streamingContext.sparkContext();//saprk初始化方法
     Configuration hadoopConf = sparkContext.hadoopConfiguration();
 
+    //设置路径
     Path checkpointPath = new Path(new Path(modelDirString), ".checkpoint");
     log.info("Setting checkpoint dir to {}", checkpointPath);
     sparkContext.setCheckpointDir(checkpointPath.toString());
 
+    //spark 读取kafka的topic
     log.info("Creating message stream from topic");
     JavaInputDStream<ConsumerRecord<K,M>> kafkaDStream = buildInputDStream(streamingContext);
     JavaPairDStream<K,M> pairDStream =
@@ -108,6 +110,8 @@ public final class BatchLayer<K,M,U> extends AbstractSparkLayer<K,M> {
 
     Class<K> keyClass = getKeyClass();
     Class<M> messageClass = getMessageClass();
+
+    //对每条spark里读取的kafka信息做处理
     pairDStream.foreachRDD(
         new BatchUpdateFunction<>(getConfig(),
                                   keyClass,
@@ -120,6 +124,7 @@ public final class BatchLayer<K,M,U> extends AbstractSparkLayer<K,M> {
                                   streamingContext));
 
     // "Inline" saveAsNewAPIHadoopFiles to be able to skip saving empty RDDs
+    // spark读取kafka数据,写入到hdfs上,每条数据进行处理
     pairDStream.foreachRDD(new SaveToHDFSFunction<>(
         dataDirString + "/oryx",
         "data",

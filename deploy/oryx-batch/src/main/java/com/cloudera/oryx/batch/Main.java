@@ -30,7 +30,7 @@ public final class Main {
   public static void main(String[] args) throws Exception {
     try (BatchLayer<?,?,?> batchLayer = new BatchLayer<>(ConfigUtils.getDefault())) {
       HadoopUtils.closeAtShutdown(batchLayer);
-      batchLayer.start();
+      batchLayer.start();  //批量程序的入口
       batchLayer.await();
     }
   }
