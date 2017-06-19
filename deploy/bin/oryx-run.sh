@@ -337,7 +337,9 @@ kafka-setup|kafka-tail|kafka-input)
       case "${CREATE}" in
         y|Y)
           echo "Creating topic ${INPUT_TOPIC}"
-          ${KAFKA_TOPICS_SH} --zookeeper ${INPUT_ZK} --create --replication-factor 1 --partitions 4 --topic ${INPUT_TOPIC}
+  #        ${KAFKA_TOPICS_SH} --zookeeper ${INPUT_ZK} --create --replication-factor 1 --partitions 4 --topic ${INPUT_TOPIC}
+           ${KAFKA_TOPICS_SH} --zookeeper sandbox:2181/kafka --create --replication-factor 1 --partitions 4 --topic ${INPUT_TOPIC}
+
           ;;
       esac
     fi
