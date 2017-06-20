@@ -339,14 +339,14 @@ kafka-setup|kafka-tail|kafka-input)
         y|Y)
           echo "Creating topic ${INPUT_TOPIC}"
   #        ${KAFKA_TOPICS_SH} --zookeeper ${INPUT_ZK} --create --replication-factor 1 --partitions 4 --topic ${INPUT_TOPIC}
-           ${KAFKA_TOPICS_SH} --zookeeper sandbox:2181/kafka --create --replication-factor 1 --partitions 4 --topic demo_data
+           ${KAFKA_TOPICS_SH} --zookeeper sandbox:2181/kafka --create --replication-factor 1 --partitions 4 --topic demodata
 
           ;;
       esac
     fi
     echo "Status of topic ${INPUT_TOPIC}:"
    # ${KAFKA_TOPICS_SH} --zookeeper ${INPUT_ZK} --describe --topic ${INPUT_TOPIC}
-   ${KAFKA_TOPICS_SH} --zookeeper sandbox:2181/kafka --describe --topic demo_data
+   ${KAFKA_TOPICS_SH} --zookeeper sandbox:2181/kafka --describe --topic demodata
     echo
 
     if [ -z `echo "${ALL_TOPICS}" | grep ${UPDATE_TOPIC}` ]; then
@@ -366,7 +366,7 @@ kafka-setup|kafka-tail|kafka-input)
 
   kafka-tail)
   #  ${KAFKA_CONSOLE_CONSUMER_SH} --zookeeper ${INPUT_ZK} --whitelist ${INPUT_TOPIC},${UPDATE_TOPIC} --property fetch.message.max.bytes=16777216
-     ${KAFKA_CONSOLE_CONSUMER_SH} --zookeeper sandbox:2181/kafka --whitelist demo_data,${UPDATE_TOPIC} --property fetch.message.max.bytes=16777216
+     ${KAFKA_CONSOLE_CONSUMER_SH} --zookeeper sandbox:2181/kafka --whitelist demodata,${UPDATE_TOPIC} --property fetch.message.max.bytes=16777216
     ;;
 
   kafka-input)
@@ -374,7 +374,7 @@ kafka-setup|kafka-tail|kafka-input)
       usageAndExit "Input file ${INPUT_FILE} does not exist"
     fi
   #  ${KAFKA_CONSOLE_PRODUCER_SH} --broker-list ${INPUT_KAFKA} --topic ${INPUT_TOPIC} < "${INPUT_FILE}"
-  ${KAFKA_CONSOLE_PRODUCER_SH} --broker-list ${INPUT_KAFKA} --topic demo_data < "${INPUT_FILE}"
+  ${KAFKA_CONSOLE_PRODUCER_SH} --broker-list ${INPUT_KAFKA} --topic demodata < "${INPUT_FILE}"
     ;;
 
   esac
