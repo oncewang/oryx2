@@ -354,19 +354,24 @@ kafka-setup|kafka-tail|kafka-input)
       case "${CREATE}" in
         y|Y)
           echo "Creating topic ${UPDATE_TOPIC}"
-          ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --create --replication-factor 1 --partitions 1 --topic ${UPDATE_TOPIC}
-          ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --alter --topic ${UPDATE_TOPIC} --config retention.ms=86400000 --config max.message.bytes=16777216
+        # ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --create --replication-factor 1 --partitions 1 --topic ${UPDATE_TOPIC}
+         ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --create --replication-factor 1 --partitions 1 --topic demodata
+
+        # ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --alter --topic ${UPDATE_TOPIC} --config retention.ms=86400000 --config max.message.bytes=16777216
+
+         ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --alter --topic demodata --config retention.ms=86400000 --config max.message.bytes=16777216
           ;;
       esac
     fi
     echo "Status of topic ${UPDATE_TOPIC}:"
-    ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --describe --topic ${UPDATE_TOPIC}
+   # ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --describe --topic ${UPDATE_TOPIC}
+    ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --describe --topic demodata
     echo
     ;;
 
   kafka-tail)
   #  ${KAFKA_CONSOLE_CONSUMER_SH} --zookeeper ${INPUT_ZK} --whitelist ${INPUT_TOPIC},${UPDATE_TOPIC} --property fetch.message.max.bytes=16777216
-     ${KAFKA_CONSOLE_CONSUMER_SH} --zookeeper sandbox:2181 --whitelist demodata,${UPDATE_TOPIC} --property fetch.message.max.bytes=16777216
+     ${KAFKA_CONSOLE_CONSUMER_SH} --zookeeper sandbox:2181 --whitelist demodata, ${KAFKA_TOPICS_SH} --zookeeper ${UPDATE_ZK} --describe --topic demodata --property fetch.message.max.bytes=16777216
     ;;
 
   kafka-input)
