@@ -328,7 +328,7 @@ kafka-setup|kafka-tail|kafka-input)
   case "${COMMAND}" in
   kafka-setup)
     #ALL_TOPICS=`${KAFKA_TOPICS_SH} --list --zookeeper ${INPUT_ZK}`
-     ALL_TOPICS=`${KAFKA_TOPICS_SH} --list --zookeeper sandbox:2181/kafka`
+     ALL_TOPICS=`${KAFKA_TOPICS_SH} --list --zookeeper sandbox:2181`
     echo "All available topics:"
     echo "${ALL_TOPICS}"
     echo
