@@ -20,7 +20,16 @@
 # CDH specific classpath config
 
 function printLatest() {
-  ls -1 /opt/cloudera/parcels/CDH/jars/$1 2>/dev/null | grep -vE "tests.jar$" | tail -1
+  #ls -1 /opt/cloudera/parcels/CDH/jars/$1 2>/dev/null | grep -vE "tests.jar$" | tail -1
+  ls -1 /usr/hdp/2.4.0.0-169/spark/lib/$1 2>/dev/null | grep -vE "tests.jar$" | tail -1
+  ls -l /usr/hdp/2.4.0.0-169/zookeeper/$1 2>/dev/null |grep -vE "tests.jar$" | tail -1
+  ls -l /usr/hdp/2.4.0.0-169/hadoop/$1 2>/dev/null |grep -vE "tests.jar$" | tail -1
+  ls -l /usr/hdp/2.4.0.0-169/hadoop-hdfs/lib/$1 2>/dev/null |grep -vE "tests.jar$" | tail -1
+  ls -l /usr/hdp/2.4.0.0-169/hadoop-mapreduce/lib/$1 2>/dev/null |grep -vE "tests.jar$" | tail -1
+  ls -l /usr/hdp/2.4.0.0-169/kafka/libs/$1 2>/dev/null |grep -vE "tests.jar$" | tail -1
+
+
+  #ls -1 /opt/cloudera/parcels/CDH/jars/$1 2>/dev/null | grep -vE "tests.jar$" | tail -1
 }
 
 # For Spark-based batch and speed layer, the only thing that needs to be supplied, really,
