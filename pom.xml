@@ -558,6 +558,7 @@
     <module>deploy/oryx-batch</module>
     <module>deploy/oryx-speed</module>
     <module>deploy/oryx-serving</module>
+    <module>demo_once</module>
   </modules>
 
   <properties>
